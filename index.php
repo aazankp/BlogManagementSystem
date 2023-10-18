@@ -503,10 +503,13 @@
                                 <div class="slider-wrapper ms-5">
                                     <div class="slider">
                                         <?php
-                                        while ($row = mysqli_fetch_assoc($seminars_news)) { ?>
+                                        while ($row = mysqli_fetch_assoc($seminars_news)) { 
+                                            $image = $row['image'];
+                                            $ImageShow = str_replace("../", "", $image)
+                                            ?>
                                             <div class="slider-item">
                                                 <div class="slider-img">
-                                                    <img src="<?php echo $row['image']; ?>">
+                                                    <img src="<?php echo $ImageShow; ?>">
                                                 </div>
                                                 <div class="slider-caption">
                                                     <h4><a href="#" class="anchor_text">
@@ -540,10 +543,13 @@
                                 <div class="slider-wrapper ms-5">
                                     <div class="slider">
                                         <?php
-                                        while ($row = mysqli_fetch_assoc($affiliated_news)) { ?>
+                                        while ($row = mysqli_fetch_assoc($affiliated_news)) { 
+                                            $image = $row['image'];
+                                            $ImageShow = str_replace("../", "", $image)
+                                            ?>
                                             <div class="slider-item">
                                                 <div class="slider-img">
-                                                    <img src="<?php echo $row['image']; ?>">
+                                                    <img src="<?php echo $ImageShow; ?>">
                                                 </div>
                                                 <div class="slider-caption">
                                                     <h4><a href="#" class="anchor_text">
@@ -577,10 +583,13 @@
                                 <div class="slider-wrapper ms-5">
                                     <div class="slider">
                                         <?php
-                                        while ($row = mysqli_fetch_assoc($notices_news)) { ?>
+                                        while ($row = mysqli_fetch_assoc($notices_news)) { 
+                                            $image = $row['image'];
+                                            $ImageShow = str_replace("../", "", $image)
+                                            ?>
                                             <div class="slider-item">
                                                 <div class="slider-img">
-                                                    <img src="<?php echo $row['image']; ?>">
+                                                    <img src="<?php echo $ImageShow; ?>">
                                                 </div>
                                                 <div class="slider-caption">
                                                     <h4><a href="#" class="anchor_text">
@@ -614,10 +623,13 @@
                                 <div class="slider-wrapper ms-5">
                                     <div class="slider">
                                         <?php
-                                        while ($row = mysqli_fetch_assoc($scholarships_news)) { ?>
+                                        while ($row = mysqli_fetch_assoc($scholarships_news)) { 
+                                            $image = $row['image'];
+                                            $ImageShow = str_replace("../", "", $image)
+                                            ?>
                                             <div class="slider-item">
                                                 <div class="slider-img">
-                                                    <img src="<?php echo $row['image']; ?>">
+                                                    <img src="<?php echo $ImageShow; ?>">
                                                 </div>
                                                 <div class="slider-caption">
                                                     <h4><a href="#" class="anchor_text">
@@ -651,10 +663,13 @@
                                 <div class="slider-wrapper ms-5">
                                     <div class="slider">
                                         <?php
-                                        while ($row = mysqli_fetch_assoc($stages_event_news)) { ?>
+                                        while ($row = mysqli_fetch_assoc($stages_event_news)) { 
+                                            $image = $row['image'];
+                                            $ImageShow = str_replace("../", "", $image)
+                                            ?>
                                             <div class="slider-item">
                                                 <div class="slider-img">
-                                                    <img src="<?php echo $row['image']; ?>">
+                                                    <img src="<?php echo $ImageShow; ?>">
                                                 </div>
                                                 <div class="slider-caption">
                                                     <h4><a href="#" class="anchor_text">
