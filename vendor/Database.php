@@ -3,7 +3,7 @@ class Database{
     private $host_name = "localhost";
     private $rootname = "root";
     private $password = "";
-    private $dbname = "blog_system_management";
+    private $dbname = "blog_management_system";
     private $conn = null;
     private $query = null;
     private $result = null;

@@ -200,7 +200,7 @@ elseif (isset($_REQUEST['action']) && $_REQUEST['action'] == "Admin_Posts_Update
                         <div class="card-body">
                             <div class="row mb-4">
                                 <div class="col-md-12 col-md-6 col-md-3 text-center">
-                                    <img src="../<?php echo $row['image']; ?>" style="width: 50%; height: 220px;" name="image">
+                                    <img src="<?php echo $row['image']; ?>" style="width: 50%; height: 220px;" name="image">
                                 </div>
                             </div>
                             <input type="hidden" value="<?php echo $post_id; ?>" name="post_id">
