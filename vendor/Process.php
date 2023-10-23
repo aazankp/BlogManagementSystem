@@ -7,15 +7,11 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == "Admin_Posts") { ?>
     <div class="text fw-bold">Posts</div>
     <div class="container-fluid">
         <div class="row">
-            <!-- left column -->
             <div class="col-md-12 col-md-6 col-md-3">
-                <!-- general form elements -->
                 <div class="card">
                     <div class="card-header bg-primary text-white">
                         <h5 class="card-title">Add Posts</h5>
                     </div>
-                    <!-- /.card-header -->
-                    <!-- form start -->
                     <form method="POST" id="post_data" enctype="multipart/form-data">
                         <div class="card-body">
                             <div class='row'>
@@ -57,19 +53,15 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == "Admin_Posts") { ?>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.card-body -->
-
                         <div class="card-footer">
                             <button type="submit" class="btn btn-success" name="submit">Submit Data</button>
                         </div>
                     </form>
                 </div>
-                <!-- /.card -->
             </div>
         </div>
 
         <div class="row mt-5">
-            <!-- left column -->
             <div class="col-md-12 col-md-6 col-md-3">
                 <div class="card">
                     <div class="card-header bg-primary text-white">
@@ -125,7 +117,6 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == "Admin_Posts") { ?>
                         </table>
                     </div>
                 </div>
-                <!-- /.card -->
             </div>
         </div>
     </div>
@@ -135,7 +126,8 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == "Admin_Posts") { ?>
 
 elseif (isset($_REQUEST['action']) && $_REQUEST['action'] == "Login") {
     $username = $_REQUEST['username'];
-    $password = $_REQUEST['password'];
+    $pass = $_REQUEST['password'];
+    $password = md5($pass);
     if ($username && $password !== "") {
         $result = $database->fetch_signup($username, $password);
         $count = mysqli_num_rows($result);
@@ -143,7 +135,9 @@ elseif (isset($_REQUEST['action']) && $_REQUEST['action'] == "Login") {
             $user = $_SESSION['username'] = $username;
             if (isset($_REQUEST['remember'])) {
                 date_default_timezone_set('Asia/Karachi');
-                setcookie('user', $user, time() + (86400 * 30), '/');
+                $user_info = ['email' => $user, 'password' => $password];
+                $user_auth = json_encode($user_info);
+                setcookie('user', $user_auth, time() + (86400 * 30), '/');
             }
             if ($user) {
                 echo 1;
@@ -187,15 +181,11 @@ elseif (isset($_REQUEST['action']) && $_REQUEST['action'] == "Admin_Posts_Update
     <div class="text fw-bold">Posts</div>
     <div class="container-fluid">
         <div class="row">
-            <!-- left column -->
             <div class="col-md-12 col-md-6 col-md-3">
-                <!-- general form elements -->
                 <div class="card">
                     <div class="card-header bg-primary text-white">
                         <h5 class="card-title">Add Posts</h5>
                     </div>
-                    <!-- /.card-header -->
-                    <!-- form start -->
                     <form method="POST" id="post_data_update" enctype="multipart/form-data">
                         <div class="card-body">
                             <div class="row mb-4">
@@ -246,14 +236,11 @@ elseif (isset($_REQUEST['action']) && $_REQUEST['action'] == "Admin_Posts_Update
                                 </div>
                             </div>
                         </div>
-                        <!-- /.card-body -->
-
                         <div class="card-footer">
                             <button type="submit" class="btn btn-success" name="submit">Submit Data</button>
                         </div>
                     </form>
                 </div>
-                <!-- /.card -->
             </div>
         </div>
 

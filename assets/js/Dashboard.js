@@ -23,16 +23,7 @@ $(document).ready(function(){
     $(document).on("click", "#log_out", function(){
         window.location.replace("../Login/Logout.php");
     });
-
-    $(document).on("click", "#posts", function(){
-        $.ajax({
-            url: "../vendor/Process.php?action=Admin_Posts", 
-            type: "POST",
-            success: function(result){
-                $("#Admin_Body_Content").html(result);
-          }});
-    });
-
+    
     function Admin_Posts() {
         $.ajax({
             url: "../vendor/Process.php?action=Admin_Posts", 
@@ -47,8 +38,12 @@ $(document).ready(function(){
             }
         });
     }
-
+    
     Admin_Posts();
+
+    $(document).on("click", "#posts", function(){
+        Admin_Posts();
+    });
 
     $(document).on("submit", "#post_data", function(event) {
         event.preventDefault();

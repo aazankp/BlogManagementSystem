@@ -5,14 +5,59 @@ function username() {
   if (isset($_SESSION["username"])) {
     $email = $_SESSION["username"];
   } else {
-    $email = $_COOKIE["user"];
+    $username = $_COOKIE["user"];
+    $user_auth = json_decode($username, true);
+    $email = $user_auth["email"];
+    $password = $user_auth["password"];
+    $pass_auth = $database->fetch_user($email);
+    $pass_auth_row = mysqli_fetch_assoc($pass_auth);
+    $pass = $pass_auth_row['password'];
+    if ($password !== $pass) {
+      date_default_timezone_set('Asia/Karachi');
+      setcookie('user', "", time(), '/');
+    }
   }
   $result = $database->fetch_user($email);
   $row = mysqli_fetch_assoc($result);
   $first_name = $row['first_name'];
   $last_name = $row['last_name'];
-  echo $first_name . " " . $last_name;
+  $name = $first_name . " " . $last_name;
+  return($name);
 }
+function Buttons() {
+  if (isset($_SESSION['username'])) {
+    if (isset($_SESSION['username']) && $_SESSION['username'] !== "") { 
+      $Return = '<div>
+        <ul class="navbar-nav">
+          <li class="nav-item float-end me-3 fw-bold"><a href="Dashboard/Dashboard.php" class="nav_title" style="text-decoration: none;"><i class="bi bi-person-circle"></i> '. username() .'</a></li>
+        </ul>
+      </div>              
+      <div>
+        <button type="button" class="nav-item btn btn-success me-5 nav_title fw-bold" id="logout" style="background: transparent; border: none;">LOGOUT <i class="bi bi-box-arrow-in-left"></i></button>
+      </div>';         
+     } else { 
+      $Return = '<div>
+        <button type="button" class="nav-item btn btn-success me-5 nav_title fw-bold" id="login" style="background: transparent; border: none;">LOGIN <i class="bi bi-box-arrow-in-right"></i></button>
+      </div>';
+     }
+  } else{ 
+    if (isset($_COOKIE['user']) && $_COOKIE['user'] !== "") { 
+      $Return = '<div>
+        <ul class="navbar-nav">
+          <li class="nav-item float-end me-3 fw-bold"><a href="Dashboard/Dashboard.php" class="nav_title" style="text-decoration: none;"><i class="bi bi-person-circle"></i> '. username() .'</a></li>
+        </ul>
+      </div>              
+      <div>
+        <button type="button" class="nav-item btn btn-success me-5 nav_title fw-bold" id="logout" style="background: transparent; border: none;">LOGOUT <i class="bi bi-box-arrow-in-left"></i></button>
+      </div>';         
+    } else { 
+      $Return = '<div>
+        <button type="button" class="nav-item btn btn-success me-5 nav_title fw-bold" id="login" style="background: transparent; border: none;">LOGIN <i class="bi bi-box-arrow-in-right"></i></button>
+      </div>';
+    }
+  }
+  return($Return);
+} 
 class Library
 {
   public function Header($title)
@@ -28,7 +73,6 @@ class Library
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
       <link rel="stylesheet" type="text/css" href="assets/css/custom.css">
-      <!-- Include Slick slider CSS files -->
       <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
       <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css">
     </head>
@@ -42,7 +86,6 @@ class Library
     ?>
       <div class="sidebar">
         <div class="logo-details">
-          <!-- <i class='bx bxl-c-plus-plus icon'></i> -->
           <div class="logo_name">Admin Panel</div>
           <i class='bx bx-menu' id="btn"></i>
         </div>
@@ -105,38 +148,7 @@ class Library
                   <a class="nav-link fw-bold nav_title ms-2" href="#">Home</a>
                 </li>
               </ul>
-              <?php
-              if (isset($_SESSION['username'])) {
-                if (isset($_SESSION['username']) && $_SESSION['username'] !== "") { ?>
-                  <div>
-                    <ul class="navbar-nav">
-                      <li class="nav-item float-end me-3 fw-bold"><a href="Dashboard/Dashboard.php" class="nav_title" style="text-decoration: none;"><i class="bi bi-person-circle"> <?php username(); ?> </i></a></li>
-                    </ul>
-                  </div>              
-                  <div>
-                    <button type="button" class="nav-item btn btn-success me-5 nav_title fw-bold" id="logout" style="background: transparent; border: none;">LOGOUT <i class="bi bi-box-arrow-in-left"></i></button>
-                  </div>              
-                <?php } else { ?>
-                  <div>
-                    <button type="button" class="nav-item btn btn-success me-5 nav_title fw-bold" id="login" style="background: transparent; border: none;">LOGIN <i class="bi bi-box-arrow-in-right"></i></button>
-                  </div>
-                <?php } 
-              } else{ 
-                if (isset($_COOKIE['user']) && $_COOKIE['user'] !== "") { ?>
-                <div>
-                    <ul class="navbar-nav">
-                      <li class="nav-item me-3 fw-bold"><a href="Dashboard/Dashboard.php" class="nav_title" style="text-decoration: none;"><i class="bi bi-person-circle"> <?php username(); ?> </i></a></li>
-                    </ul>
-                  </div>              
-                  <div>
-                    <button type="button" class="nav-item btn btn-success float-end me-5 nav_title fw-bold" id="logout" style="background: transparent; border: none;">LOGOUT <i class="bi bi-box-arrow-in-left"></i></button>
-                  </div>              
-                <?php } else { ?>
-                  <div>
-                    <button type="button" class="nav-item btn btn-success me-5 nav_title fw-bold" id="login" style="background: transparent; border: none;">LOGIN <i class="bi bi-box-arrow-in-right"></i></button>
-                  </div>
-                <?php } 
-              } ?>
+              <?php echo Buttons(); ?>
             </div>
           </div>
         </div>
@@ -149,7 +161,6 @@ class Library
     ?>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.20/sweetalert2.all.min.js"></script>
-      <!-- Include Slick Slider CSS and JS -->
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
       <script src="assets/js/Custom.js"></script>
